@@ -5,10 +5,10 @@ from webapp.form import ProductForm
 
 
 def index_view(request):
-    products = Products.objects.order_by('name', 'category')
+    products = Products.objects.all().filter(remains__gt=0).order_by('name', 'category')
     search_products = request.GET.get('search')
     if search_products:
-        products = Products.objects.all().filter(name=search_products).order_by('name', 'category')
+        products = Products.objects.all().filter(name=search_products, remains__gt=0).order_by('name', 'category')
         context = {
             'products': products,
         }
