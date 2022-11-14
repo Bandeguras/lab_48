@@ -1,0 +1,108 @@
+[
+{
+    "model": "webapp.products",
+    "pk": 1,
+    "fields": {
+        "name": "Говядина",
+        "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making",
+        "category": "meat",
+        "remains": 5,
+        "price": "600.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 2,
+    "fields": {
+        "name": "Помидор",
+        "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going",
+        "category": "vegetables",
+        "remains": 6,
+        "price": "56.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 3,
+    "fields": {
+        "name": "Виноград",
+        "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+        "category": "Fruit",
+        "remains": 3,
+        "price": "120.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 4,
+    "fields": {
+        "name": "Рис",
+        "description": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked",
+        "category": "cereals",
+        "remains": 6,
+        "price": "120.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 5,
+    "fields": {
+        "name": "Шоколад",
+        "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text",
+        "category": "other",
+        "remains": 7,
+        "price": "75.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 6,
+    "fields": {
+        "name": "Баранина",
+        "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text",
+        "category": "meat",
+        "remains": 4,
+        "price": "450.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 7,
+    "fields": {
+        "name": "Кофе",
+        "description": "\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,",
+        "category": "other",
+        "remains": 6,
+        "price": "75.00"
+    }
+},
+{
+    "model": "webapp.products",
+    "pk": 8,
+    "fields": {
+        "name": "Вода",
+        "description": "\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter",
+        "category": "other",
+        "remains": 5,
+        "price": "20.00"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$TcERqtO5xRLqaCR5NvEl8O$YvrXJV+OJ1YaYvWaJ55I1Itvm09R/VFS+epHkizVi5o=",
+        "last_login": "2022-11-14T07:13:01.977Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2022-11-14T07:12:54.541Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
