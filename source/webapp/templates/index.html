@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>Продукты</h1>
+    {% for product in products %}
+        <div class="border border-dark rounded p-4">
+        <div class="d-flex">
+            <h2>Название: {{ product.name }}  ({{product.get_category_display}})</h2>
+        </div>
+        <p style="font-weight: bold">Цена: {{ product.price }}</p>
+        </div><br/>
+    {% endfor %}<br/>
+{% endblock %}
