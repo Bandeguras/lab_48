@@ -1,32 +1,59 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.http import urlencode
+
 from webapp.models import Products
-from webapp.form import ProductForm
+from webapp.form import ProductForm, Search
+from django.views.generic import ListView, DetailView
 # Create your views here.
 
 
-def index_view(request):
-    products = Products.objects.all().filter(remains__gt=0).order_by('name', 'category')
-    search_products = request.GET.get('search')
-    if search_products:
-        products = Products.objects.all().filter(name=search_products, remains__gt=0).order_by('name', 'category')
-        context = {
-            'products': products,
-        }
-        return render(request, 'index.html', context)
-    context = {'products': products}
-    return render(request, 'index.html', context)
+class ProductIndex(ListView):
+    template_name = 'product/index.html'
+    context_object_name = 'products'
+    model = Products
+    ordering = 'name', 'category'
+
+    def get(self, request, *args, **kwargs):
+        self.form = self.get_search_form()
+        self.search_value = self.get_search_value()
+        return super().get(request, *args, **kwargs)
+
+    def get_search_form(self):
+        return Search(self.request.GET)
+
+    def get_search_value(self):
+        if self.form.is_valid():
+            return self.form.cleaned_data['search']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(remains__gt=0)
+        if self.search_value:
+            queryset = queryset.filter(Q(name__icontains=self.search_value) | Q(category__icontains=self.search_value))
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['form'] = self.form
+        if self.search_value:
+            context['query'] = urlencode({'search': self.search_value})
+            context['search'] = self.search_value
+        return context
 
 
-def product_view(request, pk):
-    product = get_object_or_404(Products, pk=pk)
-    context = {'product': product}
-    return render(request, 'view.html', context)
+class ProductDetail(DetailView):
+    template_name = 'product/view.html'
+    model = Products
+    context_object_name = 'product'
 
+    def get_queryset(self):
+        return Products.objects.all().filter(remains__gt=0)
 
 def create_view(request):
     if request.method == 'GET':
         form = ProductForm()
-        return render(request, "create.html", {'form': form})
+        return render(request, "product/create.html", {'form': form})
     elif request.method == 'POST':
         form = ProductForm(data=request.POST)
         if form.is_valid():
@@ -40,7 +67,7 @@ def create_view(request):
             )
             return redirect('view', pk=new_product.pk)
         else:
-            return render(request, "create.html", {'form': form})
+            return render(request, "product/create.html", {'form': form})
 
 
 def update_product_view(request, pk):
@@ -53,7 +80,7 @@ def update_product_view(request, pk):
             'remains': product.remains,
             'price': product.price,
         })
-        return render(request, 'update.html', {'form': form})
+        return render(request, 'product/update.html', {'form': form})
 
     elif request.method == 'POST':
         form = ProductForm(data=request.POST)
@@ -66,13 +93,13 @@ def update_product_view(request, pk):
             product.save()
             return redirect('view', pk)
         else:
-            return render(request, 'update.html', {'form': form})
+            return render(request, 'product/update.html', {'form': form})
 
 
 def delete_product_view(request, pk):
     product = get_object_or_404(Products, pk=pk)
     if request.method == 'GET':
-        return render(request, 'delete.html', {'product': product})
+        return render(request, 'product/delete.html', {'product': product})
     elif request.method == 'POST':
         product.delete()
         return redirect('index')

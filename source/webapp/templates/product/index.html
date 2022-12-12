@@ -3,18 +3,20 @@
     <li class="nav-item">
           <a class="nav-link active" href="{% url 'create' %}">Создать</a>
     </li>
-    <form class="d-flex" action="{% url 'index' %}">
-        <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+{% endblock %}
+{% block search %}
+    <form class="d-flex" role="search ms-auto">
+        {{ form.search }}
+        <button class="btn btn-outline-success ms-2" type="submit">Search</button>
     </form>
 {% endblock %}
-
 {% block content %}
     <h1>Продукты</h1>
     {% for product in products %}
         <div class="border border-dark rounded p-4">
         <div class="d-flex">
-            <h2>Название: <a href="{% url 'view' product.pk %}" style="text-decoration: none">{{ product.name }}</a>
+            <h2>Название: <a href="{% url 'product_view' product.pk %}" style="text-decoration: none">{{ product.name }}</a>
                 ({{product.get_category_display}})</h2>
             <a href="{% url "update" product.pk%}"><i class="bi bi-pencil mx-2" style="font-size:25px"></i></a>
             <a href="{% url "delete" product.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a>
