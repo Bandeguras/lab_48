@@ -1,10 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.http import urlencode
 
 from webapp.models import Products
 from webapp.form import ProductForm, Search
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 # Create your views here.
 
 
@@ -50,25 +51,23 @@ class ProductDetail(DetailView):
     def get_queryset(self):
         return Products.objects.all().filter(remains__gt=0)
 
-def create_view(request):
-    if request.method == 'GET':
-        form = ProductForm()
-        return render(request, "product/create.html", {'form': form})
-    elif request.method == 'POST':
-        form = ProductForm(data=request.POST)
-        if form.is_valid():
-            new_product = Products.objects.create(
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                category=form.cleaned_data['category'],
-                remains=form.cleaned_data['remains'],
-                price=form.cleaned_data['price'],
 
-            )
-            return redirect('view', pk=new_product.pk)
-        else:
-            return render(request, "product/create.html", {'form': form})
+class ProductCreate(CreateView):
+    template_name = 'product/create.html'
+    model = Products
+    context_object_name = 'product'
+    form_class = ProductForm
 
+    def get_queryset(self):
+        return Products.objects.all().filter(remains__gt=0)
+
+    def get_success_url(self):
+        return reverse('product_view', kwargs={'pk': self.object.product.pk})
+
+    def form_valid(self, form):
+        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
+        form.instance.product = product
+        return super().form_valid(form)
 
 def update_product_view(request, pk):
     product = get_object_or_404(Products, pk=pk)
