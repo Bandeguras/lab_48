@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+{% block title %}Удалить Продукт{% endblock %}
+
+
+{% block content %}
+    <form method="POST" action="" class="text-center" style="color: black">
+        <h1>Вы уверены что хотите удалить продукт</h1>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        {% csrf_token %}
+        <input class="btn" style="border:solid 2px black" type="submit" value="Да" >
+        <a style="border:solid 2px black" href="{% url "product_index" %}" class="p-2 rounded text-decoration-none link-dark">Нет</a>
+    </form>
+{% endblock %}
