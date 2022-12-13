@@ -5,7 +5,7 @@ from django.utils.http import urlencode
 
 from webapp.models import Products
 from webapp.form import ProductForm, Search
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # Create your views here.
 
 
@@ -58,6 +58,21 @@ class ProductCreate(CreateView):
     context_object_name = 'product'
     form_class = ProductForm
 
+    def get_success_url(self):
+        return reverse('product_view', kwargs={'pk': self.object.product.pk})
+
+    def form_valid(self, form):
+        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
+        form.instance.product = product
+        return super().form_valid(form)
+
+
+class ProductUpdate(UpdateView):
+    template_name = 'product/update.html'
+    model = Products
+    context_object_name = 'product'
+    form_class = ProductForm
+
     def get_queryset(self):
         return Products.objects.all().filter(remains__gt=0)
 
@@ -69,36 +84,19 @@ class ProductCreate(CreateView):
         form.instance.product = product
         return super().form_valid(form)
 
-def update_product_view(request, pk):
-    product = get_object_or_404(Products, pk=pk)
-    if request.method == 'GET':
-        form = ProductForm(initial={
-            'name': product.name,
-            'description': product.description,
-            'category': product.category,
-            'remains': product.remains,
-            'price': product.price,
-        })
-        return render(request, 'product/update.html', {'form': form})
 
-    elif request.method == 'POST':
-        form = ProductForm(data=request.POST)
-        if form.is_valid():
-            product.name = form.cleaned_data.get('name')
-            product.description = form.cleaned_data.get('description')
-            product.category = form.cleaned_data.get('category')
-            product.remains = form.cleaned_data.get('remains')
-            product.price = form.cleaned_data.get('price')
-            product.save()
-            return redirect('view', pk)
-        else:
-            return render(request, 'product/update.html', {'form': form})
+class ProductDelete(DeleteView):
+    template_name = 'product/delete.html'
+    model = Products
+    context_object_name = 'product'
 
+    def get_queryset(self):
+        return Products.objects.all().filter(remains__gt=0)
 
-def delete_product_view(request, pk):
-    product = get_object_or_404(Products, pk=pk)
-    if request.method == 'GET':
-        return render(request, 'product/delete.html', {'product': product})
-    elif request.method == 'POST':
-        product.delete()
-        return redirect('index')
+    def get_success_url(self):
+        return reverse('product_view', kwargs={'pk': self.object.product.pk})
+
+    def form_valid(self, form):
+        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
+        form.instance.product = product
+        return super().form_valid(form)
