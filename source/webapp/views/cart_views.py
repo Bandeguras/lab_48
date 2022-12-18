@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import View, ListView, DeleteView
-from webapp.models import Products, Cart
+from django.views.generic import View, ListView, DeleteView, CreateView
+from webapp.models import Products, Cart, Order, OrderProduct
+from webapp.form import OrderForm
 
 
 class AddItem(View):
@@ -29,6 +30,8 @@ class CartIndex(ListView):
         for cart in Cart.objects.all():
             total += cart.get_product_total()
         context['total'] = total
+        context['form'] = OrderForm
+
         return context
 
 
@@ -38,3 +41,20 @@ class CartDelete(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
+
+
+class OrderCreate(CreateView):
+    model = Order
+    form_class = OrderForm
+    success_url = reverse_lazy('product_index')
+
+    def form_valid(self, form):
+        order = form.save()
+
+        for item in Cart.objects.all():
+            OrderProduct.objects.create(product=item.product, remains=item.remains, order=order)
+            item.product.remains -= item.remains
+            item.product.save()
+            item.delete()
+
+        return redirect(self.success_url)
