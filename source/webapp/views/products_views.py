@@ -59,12 +59,9 @@ class ProductCreate(CreateView):
     form_class = ProductForm
 
     def get_success_url(self):
-        return reverse('product_view', kwargs={'pk': self.object.product.pk})
+        return reverse('product_view', kwargs={'pk': self.object.pk})
 
-    def form_valid(self, form):
-        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
-        form.instance.product = product
-        return super().form_valid(form)
+
 
 
 class ProductUpdate(UpdateView):
@@ -77,12 +74,9 @@ class ProductUpdate(UpdateView):
         return Products.objects.all().filter(remains__gt=0)
 
     def get_success_url(self):
-        return reverse('product_view', kwargs={'pk': self.object.product.pk})
+        return reverse('product_view', kwargs={'pk': self.object.pk})
 
-    def form_valid(self, form):
-        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
-        form.instance.product = product
-        return super().form_valid(form)
+
 
 
 class ProductDelete(DeleteView):
@@ -96,7 +90,3 @@ class ProductDelete(DeleteView):
     def get_success_url(self):
         return reverse('product_view', kwargs={'pk': self.object.product.pk})
 
-    def form_valid(self, form):
-        product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
-        form.instance.product = product
-        return super().form_valid(form)

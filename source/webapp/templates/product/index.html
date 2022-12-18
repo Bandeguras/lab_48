@@ -20,6 +20,8 @@
                 ({{product.get_category_display}})</h2>
             <a href="{% url "product_update" product.pk%}"><i class="bi bi-pencil mx-2" style="font-size:25px"></i></a>
             <a href="{% url "product_delete" product.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a>
+            {% include 'partial/form_add_to_cart.html' %}
+
         </div>
         <p style="font-weight: bold">Цена: {{ product.price }}</p>
         </div><br/>

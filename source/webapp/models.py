@@ -14,5 +14,9 @@ class Products(models.Model):
 
 
 class Cart(models.Model):
-    product = models.ForeignKey('webapp.Products', on_delete=models.CASCADE, related_name='products')
-    remains = models.PositiveIntegerField(verbose_name='Количество')
+    product = models.ForeignKey('webapp.Products', on_delete=models.CASCADE, related_name='cart')
+    remains = models.PositiveIntegerField(default=1, verbose_name='Количество')
+
+
+    def __str__(self):
+        return f'{self.product.name} - {self.remains}'
