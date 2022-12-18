@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Корзмна</h1>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Название</th>
+              <th scope="col">Количество</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for cart in carts %}
+            <tr>
+              <th>{{ cart.product.name }}</th>
+              <td>{{ cart.remains }}</td>
+              <td>{{ cart.product.price }}</td>
+              <td>{{ cart.get_product_total }}</td>
+
+            </tr>
+           {% endfor %}
+          </tbody>
+        </table>
+{% endblock %}
