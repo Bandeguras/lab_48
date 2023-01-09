@@ -15,18 +15,26 @@
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'product_index' %}">Home</a>
+    <a class="navbar-brand" href="{% url 'webapp:product_index' %}">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-            <a class="nav-link active" href="{% url 'cart_index' %}">Корзина</a>
+            <a class="nav-link active" href="{% url 'webapp:cart_index' %}">Корзина</a>
       </li>
       {% block nav %}
       {% endblock %}
       </ul>
+    {% if request.user.is_authenticated %}
+                    <p class="ms-auto text-secondary d-inline-block my-0 py-auto" >Hi {{ request.user.username }}</p>
+                    <a class="btn btn-dark ms-2" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Logout</a>
+            {% else %}
+                    <a class="btn btn-dark ms-auto" href="{% url 'accounts:login' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.get_full_path }}{% endif %}">Login</a>
+                    <a class="btn btn-dark ms-2" href="{% url 'accounts:create' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.get_full_path }}{% endif %}">Sign in</a>
+
+                {% endif %}
       {% block search %}
       {% endblock %}
     </div>

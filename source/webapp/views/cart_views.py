@@ -16,7 +16,7 @@ class AddItem(View):
         except Cart.DoesNotExist:
             if product.remains > 0:
                 Cart.objects.create(product=product, remains=1)
-        return redirect('product_index')
+        return redirect('webapp:product_index')
 
 
 class CartIndex(ListView):
@@ -37,7 +37,7 @@ class CartIndex(ListView):
 
 class CartDelete(DeleteView):
     model = Cart
-    success_url = reverse_lazy('cart_index')
+    success_url = reverse_lazy('webapp:cart_index')
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
@@ -46,7 +46,7 @@ class CartDelete(DeleteView):
 class OrderCreate(CreateView):
     model = Order
     form_class = OrderForm
-    success_url = reverse_lazy('product_index')
+    success_url = reverse_lazy('webapp:product_index')
 
     def form_valid(self, form):
         order = form.save()

@@ -18,13 +18,13 @@
               <td>{{ cart.remains }}</td>
               <td>{{ cart.product.price }}</td>
               <td>{{ cart.get_product_total }}</td>
-              <td><a href="{% url "cart_delete" cart.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a></td>
+              <td><a href="{% url "webapp:cart_delete" cart.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a></td>
             </tr>
            {% endfor %}
           </tbody>
         </table>
     <h5>Общая сумма: {{ total }}</h5>
-    <form action = "{% url 'order_create' %}" method="post">
+    <form action = "{% url 'webapp:order_create' %}" method="post">
     {% include 'partial/form.html' with button_text='Заказать'%}
     </form></br>
 

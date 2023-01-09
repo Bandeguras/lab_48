@@ -10,6 +10,6 @@
         <p>{{ product.description }}</p>
         {% csrf_token %}
         <input class="btn" style="border:solid 2px black" type="submit" value="Да" >
-        <a style="border:solid 2px black" href="{% url "product_index" %}" class="p-2 rounded text-decoration-none link-dark">Нет</a>
+        <a style="border:solid 2px black" href="{% url "webapp:product_index" %}" class="p-2 rounded text-decoration-none link-dark">Нет</a>
     </form>
 {% endblock %}

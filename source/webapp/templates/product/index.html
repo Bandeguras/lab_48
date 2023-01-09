@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block nav %}
     <li class="nav-item">
-          <a class="nav-link active" href="{% url 'product_create' %}">Создать</a>
+          <a class="nav-link active" href="{% url 'webapp:product_create' %}">Создать</a>
     </li>
-
+    <li class="nav-item">
+          <a class="nav-link active" href="{% url 'accounts:create' %}">Создать</a>
+    </li>
 {% endblock %}
 {% block search %}
     <form class="d-flex" role="search ms-auto">
@@ -16,10 +18,10 @@
     {% for product in products %}
         <div class="border border-dark rounded p-4">
         <div class="d-flex">
-            <h2>Название: <a href="{% url 'product_view' product.pk %}" style="text-decoration: none">{{ product.name }}</a>
+            <h2>Название: <a href="{% url 'webapp:product_view' product.pk %}" style="text-decoration: none">{{ product.name }}</a>
                 ({{product.get_category_display}})</h2>
-            <a href="{% url "product_update" product.pk%}"><i class="bi bi-pencil mx-2" style="font-size:25px"></i></a>
-            <a href="{% url "product_delete" product.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a>
+            <a href="{% url "webapp:product_update" product.pk%}"><i class="bi bi-pencil mx-2" style="font-size:25px"></i></a>
+            <a href="{% url "webapp:product_delete" product.pk %}"><i class="bi bi-trash mx-2" style="font-size:25px"></i></a>
             {% include 'partial/form_add_to_cart.html' %}
 
         </div>
