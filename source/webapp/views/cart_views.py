@@ -8,14 +8,13 @@ from webapp.form import OrderForm
 class AddItem(View):
     def post(self, request, *args, **kwargs):
         product = get_object_or_404(Products, pk=self.kwargs.get('pk'))
-        try:
-            cart = Cart.objects.get(product=product)
-            if cart.remains < product.remains:
-                cart.remains += 1
-                cart.save()
-        except Cart.DoesNotExist:
-            if product.remains > 0:
-                Cart.objects.create(product=product, remains=1)
+        my_cart = request.session.get('key', {})
+        my_cart['product'] = product.pk
+        request.session['key'] = my_cart
+        if 'key' in request.session:
+            my_cart['product'] += 1
+            request.session['key'] = my_cart
+            print(my_cart)
         return redirect('webapp:product_index')
 
 
